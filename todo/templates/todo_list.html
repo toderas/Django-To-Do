@@ -1,10 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>title</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Django App</title>
+</head>
+
+<body>
   <h1>Thing I will going to do </h1>
-  </body>
+
+  {% for item in items %}
+  <table>
+    <tr>
+      {% if item.done %}
+      <td><strike>{{ item.name }}</strike></td>
+      {% else %}
+      <td>{{ item.name }}</td>
+      {% endif %}
+      <td>
+        <form method="POST" action="toggle/{{ item.id }}"> {% csrf_token %} <input type="submit" value="Toggle"></form>
+      </td>
+      <td>
+        <form method="GET" action="edit/{{ item.id }}">
+          <input type="submit" value="Edit"/>
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <p>You Have Nothing To Do</p>
+  </table>
+  {% endfor %}
+  <a href="add">Add an item</a>
+</body>
+
 </html>
